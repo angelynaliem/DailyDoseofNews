@@ -1,0 +1,127 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/newsColorRed</item>
+        <item name="colorPrimaryDark">@color/newsDarkColorRed</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextColor">@color/mediumBlack</item>
+        <item name="android:colorEdgeEffect">@color/colorPrimary</item>
+        <item name="cardViewStyle">@style/CardView</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
+
+    </style>
+
+    <!-- MainActivity Styles -->
+
+    <style name="ToolbarMainStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_marginTop">@dimen/smallValue</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <style name="TabLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/newsColorRed</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <!--list_items_layout.xml-->
+    <style name="ArticleTitleStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/smallValue</item>
+        <item name="android:paddingBottom">@dimen/smallValue</item>
+        <item name="android:paddingStart">@dimen/mediumValue</item>
+        <item name="android:paddingEnd">@dimen/mediumValue</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CardViewMainImageStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">200dp</item>>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:contentDescription">@null</item>
+        <item name="android:tint">@color/mediumBlackTransparent</item>
+    </style>
+
+    <style name="CardView.ButtonStyle">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:tint">@color/lightBlack</item>
+    </style>
+
+    <style name="CardView.BottomLinearStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginBottom">@dimen/mediumValue</item>
+        <item name="android:layout_marginTop">@dimen/mediumValue</item>
+        <item name="android:layout_marginStart">@dimen/mediumValue</item>
+        <item name="android:layout_marginEnd">@dimen/mediumValue</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="CardViewBackgroundImageStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:contentDescription">@null</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@drawable/fade_two_gimp</item>
+    </style>
+
+    <style name="CardView.HorizontalStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/tinyValue</item>
+        <item name="android:layout_marginTop">@dimen/smallValue</item>
+        <item name="android:layout_marginEnd">@dimen/mediumValue</item>
+        <item name="android:layout_marginStart">@dimen/mediumValue</item>
+        <item name="android:layout_weight">6</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
+    <style name="CardView.VerticalStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/tinyValue</item>
+        <item name="android:layout_marginTop">@dimen/smallValue</item>
+        <item name="android:layout_marginEnd">@dimen/mediumValue</item>
+        <item name="android:layout_marginStart">@dimen/mediumValue</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
+    <style name="MainSearchViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/LargeValue</item>
+        <item name="android:layout_marginEnd">@dimen/LargeValue</item>
+        <item name="android:background">@color/offWhite</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+
+    <!-- ListItems Layout -->
+
+    <style name="CardView.ButtonLayoutStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">@dimen/mediumValue</item>
+        <item name="android:layout_marginEnd">@dimen/mediumValue</item>
+        <item name="android:layout_marginTop">@dimen/mediumValue</item>
+        <item name="android:layout_marginBottom">@dimen/mediumValue</item>
+    </style>
+
+
+</resources>

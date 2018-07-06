@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <android.support.v7.widget.CardView
+        style="@style/CardView.HorizontalStyle"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/news_image_view"
+                    style="@style/CardViewMainImageStyle"
+                    tools:src="@drawable/no_image_available" />
+
+                <ImageView
+                    style="@style/CardViewBackgroundImageStyle" />
+
+                <TextView
+                    android:id="@+id/news_article_title"
+                    style="@style/ArticleTitleStyle"
+                    android:text="@string/placeholder_text" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/CardView.BottomLinearStyle">
+
+                    <TextView
+                        android:id="@+id/news_article_author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/smallValue"
+                        tools:text="@string/placeholder_author" />
+
+                    <TextView
+                        android:id="@+id/news_article_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/placeholder_date" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/CardView.ButtonLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/news_share_button"
+                        style="@style/CardView.ButtonStyle"
+                        android:contentDescription="@string/share_this_article"
+                        android:src="@drawable/ic_action_share" />
+
+                    <ImageButton
+                        android:id="@+id/news_bookmark"
+                        style="@style/CardView.ButtonStyle"
+                        android:contentDescription="@string/bookmark_this_article"
+                        android:src="@drawable/ic_bookmark_border" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+</LinearLayout>

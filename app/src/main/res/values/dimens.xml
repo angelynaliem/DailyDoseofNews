@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="tinyValue">4dp</dimen>
+    <dimen name="smallValue">8dp</dimen>
+    <dimen name="mediumValue">12dp</dimen>
+    <dimen name="LargeValue">16dp</dimen>
+
+</resources>
