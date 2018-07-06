@@ -109,21 +109,18 @@ public class NewsFragment extends Fragment
     // Handles swipe refresh
     // If no network is found the refreshing will stop after 5 sec.
     private void setupSwipeRefresh(){
-        Log.d(TAG, "setupSwipeRefresh: swipe");
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if (!getLoaderManager().hasRunningLoaders() && NetworkUtils.isConnectedToNetwork(getContext())){
                     progressBar.setVisibility(View.VISIBLE);
                     checkNetworkAndStartLoader();
-                    Log.d(TAG, "onRefresh: if no loader");
                 } else {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             swipeRefreshLayout.setRefreshing(false);
-                            Log.d(TAG, "run: else");
                             checkNetworkAndStartLoader();
                         }
                     }, 5000);

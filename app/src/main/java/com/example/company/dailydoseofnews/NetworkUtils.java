@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.util.TimeUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,16 +18,22 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class NetworkUtils {
 
     private static final String TAG = "NetworkUtils";
+    private static final long ONE_MINUTE = 60000;
+    private static Context mContext;
 
     private NetworkUtils(){
     }
@@ -41,7 +49,8 @@ public class NetworkUtils {
         }
     }
 
-    public static List<News> getNewsData(String stringUrl){
+    public static List<News> getNewsData(Context context, String stringUrl){
+        mContext = context;
         URL url = createUrl(stringUrl);
         String jsonResponse;
         jsonResponse = makeHttpRequest(url);
@@ -164,22 +173,38 @@ public class NetworkUtils {
         return stringBuilder.toString();
     }
 
-    /* Returns a formatted date in hours if it is today's date
-     * or returns a date in a month format.
-     */
+    /* Returns a formatted date in seconds, minutes, hours, or a full date. */
     private static String formatDate(String dateString){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'", Locale.getDefault());
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         try{
-            Date date = simpleDateFormat.parse(dateString);
-            if (DateUtils.isToday(date.getTime())){
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(date);
-                int hours = calendar.get(Calendar.HOUR);
-                String hourFormat = (hours + " hours ago");
-                return hourFormat;
+            Date dateFormat = simpleDateFormat.parse(dateString);
+            Calendar calendar = Calendar.getInstance();
+            long currentTimeInMilli = calendar.getTimeInMillis();
+            long articleTimeInMilli = currentTimeInMilli - dateFormat.getTime();
+            // Seconds ago.
+            if (articleTimeInMilli <= ONE_MINUTE){
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(articleTimeInMilli);
+                return (seconds + " " + mContext.getString(R.string.seconds_ago));
+            }
+            // 1 minute ago.
+            else if (articleTimeInMilli == TimeUnit.MILLISECONDS.toMinutes(1)){
+                long oneMinute = TimeUnit.MILLISECONDS.toMinutes(articleTimeInMilli);
+                return (oneMinute + " " + mContext.getString(R.string.minute_ago));
+            }
+            // Minutes between 2-60.
+            else if (articleTimeInMilli <= TimeUnit.HOURS.toMillis(1)){
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(articleTimeInMilli);
+                return (minutes + " " + mContext.getString(R.string.minutes_ago));
+            }
+            // Hours between 1 - 24
+            else if (articleTimeInMilli <= TimeUnit.DAYS.toMillis(1)){
+                long hours = TimeUnit.MILLISECONDS.toHours(articleTimeInMilli);
+                return (hours + " " + mContext.getString(R.string.hours_ago));
             } else {
+                // if > 24 hours show full date
                 simpleDateFormat.applyPattern("MMM, dd, yyyy");
-                dateString = simpleDateFormat.format(date);
+                dateString = simpleDateFormat.format(dateFormat);
                 return dateString;
             }
         } catch (ParseException e){

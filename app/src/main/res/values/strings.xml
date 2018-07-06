@@ -30,6 +30,10 @@
     <string name="technology">technology</string>
     <string name="no_connection_toast">No connection, connect to a network and search again</string>
     <string name="bookmarks_soon">Bookmarks coming soon</string>
+    <string name="seconds_ago">seconds ago</string>
+    <string name="minutes_ago">minutes ago</string>
+    <string name="hours_ago">hours ago</string>
+    <string name="minute_ago">minute ago</string>
 
     <string-array name="string_array">
         <item>Latest</item>
