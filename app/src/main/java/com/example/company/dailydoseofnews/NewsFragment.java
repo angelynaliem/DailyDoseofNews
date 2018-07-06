@@ -13,6 +13,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class NewsFragment extends Fragment
     private static final String KEY_EQUALS = "api-key=";
     private static final String AND = "&";
     private static final String QUESTION = "?";
+    private static final String TAG = "NewsFragment";
     private RecyclerView mRecyclerView;
     private NewsAdapter newsAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -104,19 +106,24 @@ public class NewsFragment extends Fragment
         return latestNewsUrl.toString();
     }
 
+    // Handles swipe refresh
+    // If no network is found the refreshing will stop after 5 sec.
     private void setupSwipeRefresh(){
+        Log.d(TAG, "setupSwipeRefresh: swipe");
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (!getLoaderManager().hasRunningLoaders()){
+                if (!getLoaderManager().hasRunningLoaders() && NetworkUtils.isConnectedToNetwork(getContext())){
                     progressBar.setVisibility(View.VISIBLE);
                     checkNetworkAndStartLoader();
+                    Log.d(TAG, "onRefresh: if no loader");
                 } else {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             swipeRefreshLayout.setRefreshing(false);
+                            Log.d(TAG, "run: else");
                             checkNetworkAndStartLoader();
                         }
                     }, 5000);
