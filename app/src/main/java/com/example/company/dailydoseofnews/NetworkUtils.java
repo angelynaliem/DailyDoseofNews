@@ -178,33 +178,44 @@ public class NetworkUtils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'", Locale.getDefault());
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         try{
-            Date dateFormat = simpleDateFormat.parse(dateString);
+            Date articleDate = simpleDateFormat.parse(dateString);
             Calendar calendar = Calendar.getInstance();
             long currentTimeInMilli = calendar.getTimeInMillis();
-            long articleTimeInMilli = currentTimeInMilli - dateFormat.getTime();
-            // Seconds ago.
-            if (articleTimeInMilli <= ONE_MINUTE){
+            long articleTimeInMilli = currentTimeInMilli - articleDate.getTime();
+            // Seconds ago
+            if (articleTimeInMilli < ONE_MINUTE){
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(articleTimeInMilli);
                 return (seconds + " " + mContext.getString(R.string.seconds_ago));
             }
-            // 1 minute ago.
-            else if (articleTimeInMilli == TimeUnit.MILLISECONDS.toMinutes(1)){
+            // 1 minute ago
+            else if (articleTimeInMilli < TimeUnit.MINUTES.toMillis(2)){
                 long oneMinute = TimeUnit.MILLISECONDS.toMinutes(articleTimeInMilli);
                 return (oneMinute + " " + mContext.getString(R.string.minute_ago));
             }
-            // Minutes between 2-60.
-            else if (articleTimeInMilli <= TimeUnit.HOURS.toMillis(1)){
+            // Minutes between 2-59
+            else if (articleTimeInMilli < TimeUnit.HOURS.toMillis(1)){
                 long minutes = TimeUnit.MILLISECONDS.toMinutes(articleTimeInMilli);
                 return (minutes + " " + mContext.getString(R.string.minutes_ago));
             }
-            // Hours between 1 - 24
-            else if (articleTimeInMilli <= TimeUnit.DAYS.toMillis(1)){
+            // 1 hour ago
+            else if (articleTimeInMilli < TimeUnit.HOURS.toMillis(2)){
+                long hours = TimeUnit.MILLISECONDS.toHours(articleTimeInMilli);
+                return (hours + " " + mContext.getString(R.string.hour_ago));
+
+            }
+            // Hours between 2 - 23
+            else if (articleTimeInMilli < TimeUnit.DAYS.toMillis(1)){
                 long hours = TimeUnit.MILLISECONDS.toHours(articleTimeInMilli);
                 return (hours + " " + mContext.getString(R.string.hours_ago));
+            }
+            // One day ago
+            else if (articleTimeInMilli < TimeUnit.DAYS.toMillis(2)){
+                String oneDayAgo = mContext.getString(R.string.one_day_ago);
+                return oneDayAgo;
             } else {
-                // if > 24 hours show full date
+                // if > 1 day, show full date
                 simpleDateFormat.applyPattern("MMM, dd, yyyy");
-                dateString = simpleDateFormat.format(dateFormat);
+                dateString = simpleDateFormat.format(articleDate);
                 return dateString;
             }
         } catch (ParseException e){

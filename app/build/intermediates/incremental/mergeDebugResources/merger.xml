@@ -1907,7 +1907,7 @@
         <item>Politics</item>
         <item>Music</item>
 
-    </string-array></file><file path="C:\Users\Dave\Documents\AndroidStudioProjects\DailyDoseofNews\app\src\main\res\values\styles.xml" qualifiers=""><style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </string-array><string name="hour_ago">hour ago</string><string name="one_day_ago">one day ago</string></file><file path="C:\Users\Dave\Documents\AndroidStudioProjects\DailyDoseofNews\app\src\main\res\values\styles.xml" qualifiers=""><style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         
         <item name="colorPrimary">@color/newsColorRed</item>
         <item name="colorPrimaryDark">@color/newsDarkColorRed</item>

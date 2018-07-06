@@ -34,6 +34,8 @@
     <string name="minutes_ago">minutes ago</string>
     <string name="hours_ago">hours ago</string>
     <string name="minute_ago">minute ago</string>
+    <string name="hour_ago">hour ago</string>
+    <string name="one_day_ago">one day ago</string>
 
     <string-array name="string_array">
         <item>Latest</item>
