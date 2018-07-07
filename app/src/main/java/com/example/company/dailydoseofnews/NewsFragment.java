@@ -13,6 +13,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,23 +21,29 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NewsFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<List<News>>{
+        implements LoaderManager.LoaderCallbacks<List<News>> {
 
-
-    private static final String GUARDIAN_API_STARTING_POINT = "https://content.guardianapis.com/";
-    private static final String SEARCH = "search";
-    private static final String SHOW_THUMBNAIL_URL = "show-fields=thumbnail";
-    private static final String SHOW_CONTRIBUTOR_URL = "show-tags=contributor";
-    private static final String KEY_EQUALS = "api-key=";
-    private static final String AND = "&";
-    private static final String QUESTION = "?";
     private static final String TAG = "NewsFragment";
+
+    private static final String KEY_EQUALS = "api-key";
+    private static final String GUARDIAN_SEARCH_EQUALS = "content.guardianapis.com";
+    private static final String SEARCH_PARAM = "search";
+    private static final String HTTPS = "https";
+    private static final String FORMAT = "format";
+    private static final String JSON = "json";
+    private static final String SHOW_FIELDS = "show-fields";
+    private static final String THUMBNAIL = "thumbnail";
+    private static final String SHOW_TAGS = "show-tags";
+    private static final String CONTRIBUTOR = "contributor";
+
     private RecyclerView mRecyclerView;
     private NewsAdapter newsAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -59,7 +66,7 @@ public class NewsFragment extends Fragment
         return rootView;
     }
 
-    private void initializeViews(View rootView){
+    private void initializeViews(View rootView) {
         mRecyclerView = rootView.findViewById(R.id.news_recycler_view);
         swipeRefreshLayout = rootView.findViewById(R.id.recycler_swipe_refresh);
         noNetworkView = rootView.findViewById(R.id.no_network_view);
@@ -69,8 +76,8 @@ public class NewsFragment extends Fragment
     /* Only the first fragment "latest news" will not have arguments.
      * All other fragments will use the argument to search for a section.
      */
-    private void getArgumentStrings(){
-        if (getArguments() != null){
+    private void getArgumentStrings() {
+        if (getArguments() != null) {
             String sectionString = getArguments().getString(PagerAdapterActivity.SECTION_KEY);
             myUrl = createSectionUrl(sectionString);
         } else {
@@ -78,33 +85,29 @@ public class NewsFragment extends Fragment
         }
     }
 
-    private String createSectionUrl(String section){
-        StringBuilder sectionUrl = new StringBuilder();
-        sectionUrl.append(GUARDIAN_API_STARTING_POINT);
-        sectionUrl.append(section);
-        sectionUrl.append(QUESTION);
-        sectionUrl.append(KEY_EQUALS);
-        sectionUrl.append(getString(R.string.guardian_api_key));
-        sectionUrl.append(AND);
-        sectionUrl.append(SHOW_THUMBNAIL_URL);
-        sectionUrl.append(AND);
-        sectionUrl.append(SHOW_CONTRIBUTOR_URL);
-        return sectionUrl.toString();
+    private String createSectionUrl(String section) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(HTTPS);
+        builder.authority(GUARDIAN_SEARCH_EQUALS);
+        builder.appendPath(section);
+        builder.appendQueryParameter(SHOW_FIELDS, THUMBNAIL);
+        builder.appendQueryParameter(SHOW_TAGS, CONTRIBUTOR);
+        builder.appendQueryParameter(KEY_EQUALS, getString(R.string.guardian_api_key));
+        return builder.toString();
     }
 
-    private String createLatestNewsUrl(){
-        StringBuilder latestNewsUrl = new StringBuilder();
-        latestNewsUrl.append(GUARDIAN_API_STARTING_POINT);
-        latestNewsUrl.append(SEARCH);
-        latestNewsUrl.append(QUESTION);
-        latestNewsUrl.append(KEY_EQUALS);
-        latestNewsUrl.append(getString(R.string.guardian_api_key));
-        latestNewsUrl.append(AND);
-        latestNewsUrl.append(SHOW_THUMBNAIL_URL);
-        latestNewsUrl.append(AND);
-        latestNewsUrl.append(SHOW_CONTRIBUTOR_URL);
-        return latestNewsUrl.toString();
+    private String createLatestNewsUrl() {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(HTTPS);
+        builder.authority(GUARDIAN_SEARCH_EQUALS);
+        builder.appendPath(SEARCH_PARAM);
+        builder.appendQueryParameter(FORMAT, JSON);
+        builder.appendQueryParameter(SHOW_FIELDS, THUMBNAIL);
+        builder.appendQueryParameter(SHOW_TAGS, CONTRIBUTOR);
+        builder.appendQueryParameter(KEY_EQUALS, getString(R.string.guardian_api_key));
+        return builder.toString();
     }
+
 
     // Handles swipe refresh
     // If no network is found the refreshing will stop after 5 sec.

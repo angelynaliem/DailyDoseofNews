@@ -173,7 +173,7 @@ public class NetworkUtils {
         return stringBuilder.toString();
     }
 
-    /* Returns a formatted date in seconds, minutes, hours, or a full date. */
+    /* Returns a formatted date in seconds, minutes, hours, "a day ago", or a full date. */
     private static String formatDate(String dateString){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'", Locale.getDefault());
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.net.URL;
 import java.util.List;
 
 public class SearchResultsActivity extends AppCompatActivity
@@ -24,11 +25,18 @@ public class SearchResultsActivity extends AppCompatActivity
 
     private static final String TAG = "SearchResultsActivity";
 
-    private static final String GUARDIAN_SEARCH_EQUALS = "https://content.guardianapis.com/search?q=";
-    private static final String FORMAT = "format=json";
+    private static final String GUARDIAN_SEARCH_EQUALS = "content.guardianapis.com";
+    private static final String SEARCH_PARAM = "search";
+    private static final String Q_PARAM = "q";
+    private static final String HTTPS = "https";
+    private static final String FORMAT = "format";
+    private static final String JSON = "json";
+    private static final String SHOW_FIELDS = "show-fields";
+    private static final String THUMBNAIL = "thumbnail";
     private static final String SHOW_THUMBNAIL_URL = "show-fields=thumbnail";
-    private static final String SHOW_CONTRIBUTOR_URL = "show-tags=contributor";
-    private static final String KEY_EQUALS = "api-key=";
+    private static final String SHOW_TAGS = "show-tags";
+    private static final String CONTRIBUTOR = "contributor";
+    private static final String KEY_EQUALS = "api-key";
     private static final String AND = "&";
     private String searchQuery;
     private RecyclerView mRecyclerView;
@@ -42,7 +50,7 @@ public class SearchResultsActivity extends AppCompatActivity
         initializeViews();
         setupToolbar();
         String query = getIntentQuery();
-        searchQuery = createUrl(query);
+        searchQuery = createSearchUrl(query);
         setupQueryTextListener(query);
         checkForActiveNetwork();
     }
@@ -60,20 +68,18 @@ public class SearchResultsActivity extends AppCompatActivity
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    private String createUrl(String searchQuery){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(GUARDIAN_SEARCH_EQUALS);
-        stringBuilder.append(searchQuery.trim());
-        stringBuilder.append(AND);
-        stringBuilder.append(FORMAT);
-        stringBuilder.append(AND);
-        stringBuilder.append(SHOW_THUMBNAIL_URL);
-        stringBuilder.append(AND);
-        stringBuilder.append(SHOW_CONTRIBUTOR_URL);
-        stringBuilder.append(AND);
-        stringBuilder.append(KEY_EQUALS);
-        stringBuilder.append(getResources().getString(R.string.guardian_api_key));
-        return stringBuilder.toString();
+    private String createSearchUrl(String searchQuery){
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(HTTPS);
+        builder.authority(GUARDIAN_SEARCH_EQUALS);
+        builder.appendPath(SEARCH_PARAM);
+        builder.appendQueryParameter(Q_PARAM, searchQuery);
+        builder.appendQueryParameter(FORMAT, JSON);
+        builder.appendQueryParameter(SHOW_FIELDS, THUMBNAIL);
+        builder.appendQueryParameter(SHOW_TAGS, CONTRIBUTOR);
+        builder.appendQueryParameter(KEY_EQUALS, getString(R.string.guardian_api_key));
+        String searchUrl =  builder.build().toString();
+        return searchUrl;
     }
 
     private String getIntentQuery(){
@@ -94,7 +100,7 @@ public class SearchResultsActivity extends AppCompatActivity
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchQuery = createUrl(query);
+                searchQuery = createSearchUrl(query);
                 Log.d(TAG, "onQueryTextSubmit: searchQuery = " + searchQuery);
                 restartLoader();
                 searchView.clearFocus();
