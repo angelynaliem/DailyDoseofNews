@@ -1,4 +1,4 @@
-package com.example.company.dailydoseofnews;
+package com.example.company.dailydoseofnews.interfaces;
 
 import android.view.View;
 

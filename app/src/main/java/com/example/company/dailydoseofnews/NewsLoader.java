@@ -2,6 +2,9 @@ package com.example.company.dailydoseofnews;
 
 
 import android.content.Context;
+
+import com.example.company.dailydoseofnews.network.NetworkUtils;
+
 import java.util.List;
 
 public class NewsLoader extends android.support.v4.content.AsyncTaskLoader{

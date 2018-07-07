@@ -1,4 +1,4 @@
-package com.example.company.dailydoseofnews;
+package com.example.company.dailydoseofnews.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -7,6 +7,9 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.TimeUtils;
+
+import com.example.company.dailydoseofnews.News;
+import com.example.company.dailydoseofnews.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

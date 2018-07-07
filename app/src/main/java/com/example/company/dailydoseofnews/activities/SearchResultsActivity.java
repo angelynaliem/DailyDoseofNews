@@ -1,4 +1,4 @@
-package com.example.company.dailydoseofnews;
+package com.example.company.dailydoseofnews.activities;
 
 
 import android.content.Intent;
@@ -17,7 +17,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.net.URL;
+import com.example.company.dailydoseofnews.network.NetworkUtils;
+import com.example.company.dailydoseofnews.News;
+import com.example.company.dailydoseofnews.NewsAdapter;
+import com.example.company.dailydoseofnews.interfaces.NewsInterface;
+import com.example.company.dailydoseofnews.NewsLoader;
+import com.example.company.dailydoseofnews.R;
+
 import java.util.List;
 
 public class SearchResultsActivity extends AppCompatActivity

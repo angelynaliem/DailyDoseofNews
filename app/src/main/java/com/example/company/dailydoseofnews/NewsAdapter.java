@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.company.dailydoseofnews.interfaces.NewsInterface;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 

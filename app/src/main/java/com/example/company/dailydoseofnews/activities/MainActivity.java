@@ -1,4 +1,4 @@
-package com.example.company.dailydoseofnews;
+package com.example.company.dailydoseofnews.activities;
 
 
 import android.app.ActivityManager;
@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.example.company.dailydoseofnews.R;
+import com.example.company.dailydoseofnews.adapter.PagerAdapterActivity;
 
 public class MainActivity extends AppCompatActivity {
 

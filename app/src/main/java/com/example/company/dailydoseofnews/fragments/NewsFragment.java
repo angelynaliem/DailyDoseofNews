@@ -1,4 +1,4 @@
-package com.example.company.dailydoseofnews;
+package com.example.company.dailydoseofnews.fragments;
 
 
 import android.content.Intent;
@@ -18,6 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.example.company.dailydoseofnews.network.NetworkUtils;
+import com.example.company.dailydoseofnews.News;
+import com.example.company.dailydoseofnews.NewsAdapter;
+import com.example.company.dailydoseofnews.interfaces.NewsInterface;
+import com.example.company.dailydoseofnews.NewsLoader;
+import com.example.company.dailydoseofnews.R;
+import com.example.company.dailydoseofnews.adapter.PagerAdapterActivity;
+
 import java.util.List;
 
 /**

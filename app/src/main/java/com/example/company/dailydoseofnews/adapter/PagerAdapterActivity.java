@@ -1,4 +1,4 @@
-package com.example.company.dailydoseofnews;
+package com.example.company.dailydoseofnews.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.example.company.dailydoseofnews.fragments.NewsFragment;
+import com.example.company.dailydoseofnews.R;
 
 public class PagerAdapterActivity extends FragmentPagerAdapter{
 
