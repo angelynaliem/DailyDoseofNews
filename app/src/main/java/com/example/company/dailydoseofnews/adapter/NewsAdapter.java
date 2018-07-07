@@ -1,4 +1,4 @@
-package com.example.company.dailydoseofnews;
+package com.example.company.dailydoseofnews.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.company.dailydoseofnews.News;
+import com.example.company.dailydoseofnews.R;
 import com.example.company.dailydoseofnews.interfaces.NewsInterface;
 import com.squareup.picasso.Picasso;
 import java.util.List;

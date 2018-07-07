@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.example.company.dailydoseofnews.network.NetworkUtils;
 import com.example.company.dailydoseofnews.News;
-import com.example.company.dailydoseofnews.NewsAdapter;
+import com.example.company.dailydoseofnews.adapter.NewsAdapter;
 import com.example.company.dailydoseofnews.interfaces.NewsInterface;
 import com.example.company.dailydoseofnews.NewsLoader;
 import com.example.company.dailydoseofnews.R;
