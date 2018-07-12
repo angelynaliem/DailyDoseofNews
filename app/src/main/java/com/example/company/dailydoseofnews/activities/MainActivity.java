@@ -12,15 +12,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.company.dailydoseofnews.R;
 import com.example.company.dailydoseofnews.adapter.PagerAdapterActivity;
 
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String QUERY_KEY = "queryKey";
-
+    private static final String TAG = "MainActivity";
     private SearchView searchView;
     private AppBarLayout appBarLayout;
     private TabLayout tabLayout;
@@ -31,11 +35,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate: ONCREATE!!");
         initializeViews();
         setupViewPager();
         setupSearchView();
         setupQueryTextListener();
         setOnTabListener();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.settings_overflow){
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initializeViews(){
@@ -93,47 +113,69 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Changes tab & window colors depending on subject.
     private void setOnTabListener(){
+        // This sets the first tabColor when called from onCreate();
+        int firstTab = tabLayout.getSelectedTabPosition();
+        TabLayout.Tab tab = tabLayout.getTabAt(firstTab);
+        String tabString = tab.getText().toString();
+        findColors(tabString);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int currentTabPosition = tab.getPosition();
-                int primaryDarkColor;
-                int primaryColor;
-                if (currentTabPosition == 0 || currentTabPosition == 1){
-                    primaryColor = R.color.newsColorRed;
-                    primaryDarkColor = R.color.newsDarkColorRed;
-                } else if (currentTabPosition == 2 || currentTabPosition == 3){
-                    primaryColor = R.color.newsColorTeal;
-                    primaryDarkColor = R.color.newsDarkColorTeal;
-                } else if (currentTabPosition == 4 || currentTabPosition == 5){
-                    primaryColor = R.color.newsColorPink;
-                    primaryDarkColor = R.color.newsDarkColorPink;
-                } else if (currentTabPosition == 6 || currentTabPosition == 7){
-                    primaryColor = R.color.newsColorBlue;
-                    primaryDarkColor = R.color.newsDarkColorBlue;
-                } else {
-                    primaryColor = R.color.newsColorBlue;
-                    primaryDarkColor = R.color.newsDarkColorBlue;
-                }
-                setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.app_name),
-                        appIcon,
-                        getResources().getColor(primaryDarkColor)));
-                tabLayout.setBackgroundColor(getResources().getColor(primaryColor));
-                appBarLayout.setBackgroundColor(getResources().getColor(primaryColor));
-                getWindow().setStatusBarColor(getResources().getColor(primaryDarkColor));
-            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+                String currentTabText = tab.getText().toString().trim();
+                findColors(currentTabText);
 
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onTabUnselected(TabLayout.Tab tab) { }
 
-            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
         });
+    }
+
+    // Determine what colors to use depending on the Tab text.
+    private void findColors(String currentTabText){
+        int primaryDarkColor;
+        int primaryColor;
+        if (currentTabText.equals("us-news") || currentTabText.equals("world")
+                || currentTabText.equals("business") || currentTabText.equals("technology")){
+            primaryColor = R.color.colorRed;
+            primaryDarkColor = R.color.colorRedDark;
+        } else if (currentTabText.equals("games") || currentTabText.equals("environment")
+                || currentTabText.equals("film") || currentTabText.equals("music")){
+            primaryColor = R.color.colorCyan;
+            primaryDarkColor = R.color.colorCyanDark;
+        } else if (currentTabText.equals("food-and-drink") || currentTabText.equals("family")
+                || currentTabText.equals("fashion") || currentTabText.equals("health-and-wellbeing")){
+            primaryColor = R.color.colorPurple;
+            primaryDarkColor = R.color.colorPurpleDark;
+        } else if (currentTabText.equals("nfl") || currentTabText.equals("football")
+                || currentTabText.equals("mlb") || currentTabText.equals("nba")
+                || currentTabText.equals("nhl")){
+            primaryColor = R.color.colorBlue;
+            primaryDarkColor = R.color.colorBlueDark;
+        } else {
+            primaryColor = R.color.colorCyan;
+            primaryDarkColor = R.color.colorCyanDark;
+        }
+        applyColors(primaryColor, primaryDarkColor);
+    }
+
+    // Apply's TabLayout, ActionBar, Window, & StatusBar colors depending on subject.
+    private void applyColors(int primaryColor, int primaryDarkColor){
+        setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.app_name),
+                appIcon,
+                getResources().getColor(primaryDarkColor)));
+        tabLayout.setBackgroundColor(getResources().getColor(primaryColor));
+        appBarLayout.setBackgroundColor(getResources().getColor(primaryColor));
+        getWindow().setStatusBarColor(getResources().getColor(primaryDarkColor));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 }

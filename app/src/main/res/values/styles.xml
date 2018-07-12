@@ -3,14 +3,30 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/newsColorRed</item>
-        <item name="colorPrimaryDark">@color/newsDarkColorRed</item>
+        <item name="colorPrimary">@color/mediumBlack</item>
+        <item name="colorPrimaryDark">@color/mediumDarkBlack</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextColor">@color/mediumBlack</item>
+        <item name="cardViewStyle">@style/CardView</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
+        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>>
+
+
+    </style>
+
+    <style name="OverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@android:color/white</item>
+    </style>
+
+    <style name="ActionBarAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorRed</item>
+        <item name="colorPrimaryDark">@color/colorRedDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:editTextColor">@color/mediumBlack</item>
         <item name="android:colorEdgeEffect">@color/colorPrimary</item>
         <item name="cardViewStyle">@style/CardView</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
-
     </style>
 
     <!-- MainActivity Styles -->
@@ -20,12 +36,13 @@
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:layout_marginTop">@dimen/smallValue</item>
         <item name="android:elevation">0dp</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
     <style name="TabLayoutStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/newsColorRed</item>
+        <item name="android:background">@color/colorRed</item>
         <item name="android:elevation">0dp</item>
     </style>
 

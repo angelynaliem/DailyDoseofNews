@@ -19,14 +19,17 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.company.dailydoseofnews.adapter.PagerAdapterActivity;
+import com.example.company.dailydoseofnews.data.NewsContract.UrlParams;
 import com.example.company.dailydoseofnews.network.NetworkUtils;
 import com.example.company.dailydoseofnews.News;
 import com.example.company.dailydoseofnews.adapter.NewsAdapter;
 import com.example.company.dailydoseofnews.interfaces.NewsInterface;
 import com.example.company.dailydoseofnews.NewsLoader;
 import com.example.company.dailydoseofnews.R;
-import com.example.company.dailydoseofnews.adapter.PagerAdapterActivity;
+import com.example.company.dailydoseofnews.preferences.SharedPrefsSingleton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,25 +38,13 @@ import java.util.List;
 public class NewsFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<List<News>> {
 
-    private static final String TAG = "NewsFragment";
-
-    private static final String KEY_EQUALS = "api-key";
-    private static final String GUARDIAN_SEARCH_EQUALS = "content.guardianapis.com";
-    private static final String SEARCH_PARAM = "search";
-    private static final String HTTPS = "https";
-    private static final String FORMAT = "format";
-    private static final String JSON = "json";
-    private static final String SHOW_FIELDS = "show-fields";
-    private static final String THUMBNAIL = "thumbnail";
-    private static final String SHOW_TAGS = "show-tags";
-    private static final String CONTRIBUTOR = "contributor";
-
     private RecyclerView mRecyclerView;
     private NewsAdapter newsAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private View noNetworkView;
     private ProgressBar progressBar;
     private String myUrl;
+    private SharedPrefsSingleton sharedPrefsSingleton;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -63,7 +54,9 @@ public class NewsFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recylcer_view_layout, container, false);
-        getArgumentStrings();
+        sharedPrefsSingleton = SharedPrefsSingleton.getInstance(getContext());
+
+        getPagerAdapterPosition();
         initializeViews(rootView);
         setupSwipeRefresh();
         checkNetworkAndStartLoader();
@@ -77,41 +70,49 @@ public class NewsFragment extends Fragment
         progressBar = rootView.findViewById(R.id.loading_bar);
     }
 
-    /* Only the first fragment "latest news" will not have arguments.
-     * All other fragments will use the argument to search for a section.
+    /** Gets the current position of the PagerAdapter that is used in the
+     * @createSectionUrl
      */
-    private void getArgumentStrings() {
+    private void getPagerAdapterPosition() {
         if (getArguments() != null) {
-            String sectionString = getArguments().getString(PagerAdapterActivity.SECTION_KEY);
-            myUrl = createSectionUrl(sectionString);
-        } else {
-            myUrl = createLatestNewsUrl();
+            int position = getArguments().getInt(PagerAdapterActivity.PREFS_POSITION_KEY);
+            myUrl = createSectionUrl(position);
         }
     }
 
-    private String createSectionUrl(String section) {
+    /* Creates the URL using the sections from the SharedPreferences. */
+    private String createSectionUrl(int position) {
+        String pageSize = sharedPrefsSingleton.getStringValue(
+                getString(R.string.num_of_pages_prefs_key),
+                getString(R.string.page_default_value));
+        ArrayList<String> sectionArrayList = sharedPrefsSingleton.getArrayFromSet(
+                getContext(),
+                getString(R.string.sections_prefs_key),
+                R.array.default_news_array);
+
+        // This gets the current position of the ArrayList of user prefs
+        // to load the correct section.
+        String currentSection = sectionArrayList.get(position);
+
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme(HTTPS);
-        builder.authority(GUARDIAN_SEARCH_EQUALS);
-        builder.appendPath(section);
-        builder.appendQueryParameter(SHOW_FIELDS, THUMBNAIL);
-        builder.appendQueryParameter(SHOW_TAGS, CONTRIBUTOR);
-        builder.appendQueryParameter(KEY_EQUALS, getString(R.string.guardian_api_key));
+        builder.scheme(UrlParams.SCHEME);
+        builder.authority(UrlParams.AUTHORITY);
+        // Some sections have two paths for example: "sport/mlb"
+        // This appends two paths if it contains a "/"
+        if (currentSection.contains("/")){
+            String[] sectionArray = currentSection.split("/");
+            builder.appendPath(sectionArray[0]);
+            builder.appendPath(sectionArray[1]);
+        } else {
+            // otherwise it will contain one word e.g. "film"
+            builder.appendPath(currentSection);
+        }
+        builder.appendQueryParameter(UrlParams.SHOW_FIELDS, "thumbnail");
+        builder.appendQueryParameter(UrlParams.PAGE_SIZE, pageSize);
+        builder.appendQueryParameter(UrlParams.SHOW_TAGS, "contributor");
+        builder.appendQueryParameter(UrlParams.API_KEY_PARAM, getString(R.string.guardian_api_key));
         return builder.toString();
     }
-
-    private String createLatestNewsUrl() {
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme(HTTPS);
-        builder.authority(GUARDIAN_SEARCH_EQUALS);
-        builder.appendPath(SEARCH_PARAM);
-        builder.appendQueryParameter(FORMAT, JSON);
-        builder.appendQueryParameter(SHOW_FIELDS, THUMBNAIL);
-        builder.appendQueryParameter(SHOW_TAGS, CONTRIBUTOR);
-        builder.appendQueryParameter(KEY_EQUALS, getString(R.string.guardian_api_key));
-        return builder.toString();
-    }
-
 
     // Handles swipe refresh
     // If no network is found the refreshing will stop after 5 sec.
@@ -120,8 +121,8 @@ public class NewsFragment extends Fragment
             @Override
             public void onRefresh() {
                 if (!getLoaderManager().hasRunningLoaders() && NetworkUtils.isConnectedToNetwork(getContext())){
+                    checkNetworkAndRestartLoader();
                     progressBar.setVisibility(View.VISIBLE);
-                    checkNetworkAndStartLoader();
                 } else {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -142,6 +143,21 @@ public class NewsFragment extends Fragment
     private void checkNetworkAndStartLoader(){
         if (NetworkUtils.isConnectedToNetwork(getContext())){
             getLoaderManager().initLoader(2, null, this);
+            noNetworkView.setVisibility(View.GONE);
+        } else if (!NetworkUtils.isConnectedToNetwork(getContext())){
+            if (newsAdapter != null && newsAdapter.getItemCount() > 0){
+                noNetworkView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+            } else {
+                progressBar.setVisibility(View.GONE);
+                noNetworkView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void checkNetworkAndRestartLoader(){
+        if (NetworkUtils.isConnectedToNetwork(getContext())){
+            getLoaderManager().restartLoader(2, null, this);
             noNetworkView.setVisibility(View.GONE);
         } else if (NetworkUtils.isConnectedToNetwork(getContext()) == false){
             if (newsAdapter != null && newsAdapter.getItemCount() > 0){
@@ -172,6 +188,7 @@ public class NewsFragment extends Fragment
             @Override
             public void onItemClick(View view, int position) {
                 News currentNews = data.get(position);
+                    // Share Intent
                 if (view.getId() == R.id.news_share_button){
                     Intent shareIntent = new Intent();
                     shareIntent.setAction(Intent.ACTION_SEND);
@@ -181,10 +198,12 @@ public class NewsFragment extends Fragment
                     if (shareIntent.resolveActivity(getContext().getPackageManager()) != null){
                         startActivity(shareIntent);
                     }
+                    // Bookmark Toast
                 } else if (view.getId() == R.id.news_bookmark) {
                     Toast.makeText(getContext(), R.string.bookmarks_soon, Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    // Website Intent
                     String websiteUrl = currentNews.getWebUrl();
                     Intent webIntent = new Intent();
                     webIntent.setData(Uri.parse(websiteUrl));

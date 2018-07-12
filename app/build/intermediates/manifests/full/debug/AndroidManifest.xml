@@ -20,7 +20,9 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.example.company.dailydoseofnews.activities.MainActivity" >
+        <activity
+            android:name="com.example.company.dailydoseofnews.activities.MainActivity"
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,6 +32,11 @@
         <activity
             android:name="com.example.company.dailydoseofnews.activities.SearchResultsActivity"
             android:parentActivityName="com.example.company.dailydoseofnews.activities.MainActivity" />
+        <activity
+            android:name="com.example.company.dailydoseofnews.activities.SettingsActivity"
+            android:parentActivityName="com.example.company.dailydoseofnews.activities.MainActivity"
+            android:theme="@style/ActionBarAppTheme" >
+        </activity>
 
         <provider
             android:name="com.squareup.picasso.PicassoProvider"

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <MultiSelectListPreference
+        android:dialogTitle="@string/select_sections"
+        android:entries="@array/sections_names"
+        android:entryValues="@array/sections_values"
+        android:summary="@string/choose_news_categories"
+        android:key="@string/sections_prefs_key"
+        android:title="@string/sections" />
+
+    <ListPreference
+        android:defaultValue="@string/page_default_value"
+        android:entries="@array/page_names"
+        android:entryValues="@array/page_values"
+        android:key="@string/num_of_pages_prefs_key"
+        android:title="@string/page" />
+
+</PreferenceScreen>

@@ -41,8 +41,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    style="@style/CardView.BottomLinearStyle">
+                <LinearLayout style="@style/CardView.BottomLinearStyle">
 
                     <TextView
                         android:id="@+id/news_article_author"

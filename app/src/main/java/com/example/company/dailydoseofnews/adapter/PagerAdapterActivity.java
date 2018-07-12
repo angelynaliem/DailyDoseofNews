@@ -7,19 +7,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.company.dailydoseofnews.preferences.SharedPrefsSingleton;
 import com.example.company.dailydoseofnews.fragments.NewsFragment;
 import com.example.company.dailydoseofnews.R;
 
-public class PagerAdapterActivity extends FragmentPagerAdapter{
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-    public static final String LATEST_NEWS_KEY = "latestNewsKey";
-    public static final String SECTION_KEY = "sectionKey";
+public class PagerAdapterActivity extends FragmentPagerAdapter {
+
+    public static final String PREFS_POSITION_KEY = "prefsPositionKey";
+    private ArrayList<String> sectionsArrayList;
     private Context context;
-    private int[] categoryNameIdArray = {R.string.latest, R.string.politics, R.string.music,
-            R.string.games, R.string.travel, R.string.technology, R.string.sport};
+
     public PagerAdapterActivity(Context context, FragmentManager fm) {
         super(fm);
         this.context = context;
+        SharedPrefsSingleton sharedPrefsSingleton = SharedPrefsSingleton.getInstance(context);
+        sectionsArrayList = sharedPrefsSingleton.getArrayFromSet(context, context.getString(R.string.sections_prefs_key),
+                R.array.default_news_array);
     }
 
     /* First Tab will always display "latest news", which uses the latestNewsUrl String.
@@ -28,25 +36,30 @@ public class PagerAdapterActivity extends FragmentPagerAdapter{
     @Override
     public Fragment getItem(int position) {
         NewsFragment newsFragment = new NewsFragment();
-        if (position == 0){
-            return newsFragment;
-        } else {
-            Bundle bundle = new Bundle();
-            bundle.putString(SECTION_KEY, context.getString(categoryNameIdArray[position]));
-            bundle.putString(LATEST_NEWS_KEY, null);
-            newsFragment.setArguments(bundle);
-            return newsFragment;
-        }
+        Bundle bundle = new Bundle();
+        bundle.putInt(PREFS_POSITION_KEY, position);
+        newsFragment.setArguments(bundle);
+        return newsFragment;
     }
 
     @Override
     public int getCount() {
-        return categoryNameIdArray.length;
+       return sectionsArrayList.size();
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return (context.getString(categoryNameIdArray[position]));
+        String currentString = sectionsArrayList.get(position);
+        if (currentString.contains("/")) {
+            String[] correctTitle = currentString.split("/");
+            return correctTitle[1];
+        } else {
+            return currentString;
+        }
     }
+
+
 }
+
+

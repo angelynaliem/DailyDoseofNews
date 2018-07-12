@@ -12,7 +12,8 @@
     <string name="query_hint">Enter Keywords</string>
     <string name="author">Author:</string>
     <string name="no_news">Can\'t find any news right now :(\nPull down to reload page.</string>
-    <string name="no_internet_connection">No internet connection\nPull down to reload page.</string>>
+    <string name="no_internet_connection">No internet connection\nPull down to reload page.</string>
+
     <string name="settings">Settings</string>
     <string name="no_internet_connection_short">No Internet Connection</string>
     <string name="try_again">Try Again</string>
@@ -36,12 +37,83 @@
     <string name="minute_ago">minute ago</string>
     <string name="hour_ago">hour ago</string>
     <string name="one_day_ago">1 day ago</string>
+    <string name="news_settings">News Settings</string>
+    <string name="search">search</string>
 
-    <string-array name="string_array">
-        <item>Latest</item>
-        <item>Technology</item>
-        <item>Politics</item>
-        <item>Music</item>
+    <string name="sort_order_summary">Change order of articles</string>
 
+    <string-array name="default_news_array">
+        <item>world</item>
+        <item>games</item>
+        <item>technology</item>
+        <item>lifeandstyle/food-and-drink</item>
+        <item>travel</item>
+        <item>sport/mlb</item>
     </string-array>
+
+    <string name="page">Articles per Page</string>
+    <string name="num_of_pages_prefs_key">page_key</string>
+    <string name="page_default_value">10</string>
+
+    <string-array name="page_values">
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
+
+    <string-array name="page_names">
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
+
+    <string name="order_default_value">relevance</string>
+    <string name="sections">Sections</string>
+
+    <string name="sections_prefs_key">list_key</string>
+    <string name="choose_news_categories">Choose news categories</string>
+    <string name="select_sections">Select sections</string>
+
+    <string-array name="sections_names">
+        <item>US News</item>
+        <item>World News</item>
+        <item>Business</item>
+        <item>Environment</item>
+        <item>Technology</item>
+        <item>Video Games</item>
+        <item>Film</item>
+        <item>Music</item>
+        <item>Food</item>
+        <item>Family</item>
+        <item>Travel</item>
+        <item>Fashion</item>
+        <item>Health &amp; Fitness</item>
+        <item>NFL</item>
+        <item>Soccer</item>
+        <item>MLB</item>
+        <item>NBA</item>
+        <item>NHL</item>
+    </string-array>
+
+    <string-array name="sections_values">
+        <item>us-news</item>
+        <item>world</item>
+        <item>business</item>
+        <item>environment</item>
+        <item>technology</item>
+        <item>games</item>
+        <item>film</item>
+        <item>music</item>
+        <item>lifeandstyle/food-and-drink</item>
+        <item>lifeandstyle/family</item>
+        <item>travel</item>
+        <item>fashion</item>
+        <item>lifeandstyle/health-and-wellbeing</item>
+        <item>sport/nfl</item>
+        <item>football</item>
+        <item>sport/mlb</item>
+        <item>sport/nba</item>
+        <item>sport/nhl</item>
+    </string-array>
+
 </resources>

@@ -30,8 +30,7 @@
                     style="@style/CardViewMainImageStyle"
                     tools:src="@drawable/no_image_available" />
 
-                <ImageView
-                    style="@style/CardViewBackgroundImageStyle" />
+                <ImageView style="@style/CardViewBackgroundImageStyle" />
 
                 <TextView
                     android:id="@+id/news_article_title"
@@ -45,8 +44,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    style="@style/CardView.BottomLinearStyle">
+                <LinearLayout style="@style/CardView.BottomLinearStyle">
 
                     <TextView
                         android:id="@+id/news_article_author"

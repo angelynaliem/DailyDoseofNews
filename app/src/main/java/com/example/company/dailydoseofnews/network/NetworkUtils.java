@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -35,8 +36,7 @@ import java.util.concurrent.TimeUnit;
 public class NetworkUtils {
 
     private static final String TAG = "NetworkUtils";
-    private static final long ONE_MINUTE = 60000;
-    private static Context mContext;
+
 
     private NetworkUtils(){
     }
@@ -45,15 +45,10 @@ public class NetworkUtils {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting()){
-            return true;
-        } else {
-            return false;
-        }
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
-    public static List<News> getNewsData(Context context, String stringUrl){
-        mContext = context;
+    public static List<News> getNewsData(String stringUrl){
         URL url = createUrl(stringUrl);
         String jsonResponse;
         jsonResponse = makeHttpRequest(url);
@@ -142,11 +137,10 @@ public class NetworkUtils {
                 }
                 // Article Date
                 String date = currentArticle.getString("webPublicationDate");
-                String formattedDate = formatDate(date);
                 // Article Web-page URL
                 String webUrl = currentArticle.getString("webUrl");
                 /* Title, Author, ImageURL, Date, Web-pageURL */
-                newsList.add(new News(title, author, image, formattedDate, webUrl));
+                newsList.add(new News(title, author, image, date, webUrl));
             }
 
 
@@ -176,53 +170,4 @@ public class NetworkUtils {
         return stringBuilder.toString();
     }
 
-    /* Returns a formatted date in seconds, minutes, hours, "a day ago", or a full date. */
-    private static String formatDate(String dateString){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'", Locale.getDefault());
-        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        try{
-            Date articleDate = simpleDateFormat.parse(dateString);
-            Calendar calendar = Calendar.getInstance();
-            long currentTimeInMilli = calendar.getTimeInMillis();
-            long articleTimeInMilli = currentTimeInMilli - articleDate.getTime();
-            // Seconds ago
-            if (articleTimeInMilli < ONE_MINUTE){
-                long seconds = TimeUnit.MILLISECONDS.toSeconds(articleTimeInMilli);
-                return (seconds + " " + mContext.getString(R.string.seconds_ago));
-            }
-            // 1 minute ago
-            else if (articleTimeInMilli < TimeUnit.MINUTES.toMillis(2)){
-                long oneMinute = TimeUnit.MILLISECONDS.toMinutes(articleTimeInMilli);
-                return (oneMinute + " " + mContext.getString(R.string.minute_ago));
-            }
-            // Minutes between 2-59
-            else if (articleTimeInMilli < TimeUnit.HOURS.toMillis(1)){
-                long minutes = TimeUnit.MILLISECONDS.toMinutes(articleTimeInMilli);
-                return (minutes + " " + mContext.getString(R.string.minutes_ago));
-            }
-            // 1 hour ago
-            else if (articleTimeInMilli < TimeUnit.HOURS.toMillis(2)){
-                long hours = TimeUnit.MILLISECONDS.toHours(articleTimeInMilli);
-                return (hours + " " + mContext.getString(R.string.hour_ago));
-
-            }
-            // Hours between 2 - 23
-            else if (articleTimeInMilli < TimeUnit.DAYS.toMillis(1)){
-                long hours = TimeUnit.MILLISECONDS.toHours(articleTimeInMilli);
-                return (hours + " " + mContext.getString(R.string.hours_ago));
-            }
-            // One day ago
-            else if (articleTimeInMilli < TimeUnit.DAYS.toMillis(2)){
-                String oneDayAgo = mContext.getString(R.string.one_day_ago);
-                return oneDayAgo;
-            } else {
-                // if > 1 day, show full date
-                simpleDateFormat.applyPattern("MMM, dd, yyyy");
-                dateString = simpleDateFormat.format(articleDate);
-                return dateString;
-            }
-        } catch (ParseException e){
-            return null;
-        }
-    }
 }

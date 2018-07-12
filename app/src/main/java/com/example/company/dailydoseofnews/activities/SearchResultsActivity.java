@@ -3,6 +3,7 @@ package com.example.company.dailydoseofnews.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.company.dailydoseofnews.data.NewsContract.UrlParams;
 import com.example.company.dailydoseofnews.network.NetworkUtils;
 import com.example.company.dailydoseofnews.News;
 import com.example.company.dailydoseofnews.adapter.NewsAdapter;
@@ -31,19 +33,13 @@ public class SearchResultsActivity extends AppCompatActivity
 
     private static final String TAG = "SearchResultsActivity";
 
-    private static final String GUARDIAN_SEARCH_EQUALS = "content.guardianapis.com";
-    private static final String SEARCH_PARAM = "search";
     private static final String Q_PARAM = "q";
-    private static final String HTTPS = "https";
-    private static final String FORMAT = "format";
     private static final String JSON = "json";
     private static final String SHOW_FIELDS = "show-fields";
     private static final String THUMBNAIL = "thumbnail";
-    private static final String SHOW_THUMBNAIL_URL = "show-fields=thumbnail";
     private static final String SHOW_TAGS = "show-tags";
     private static final String CONTRIBUTOR = "contributor";
     private static final String KEY_EQUALS = "api-key";
-    private static final String AND = "&";
     private String searchQuery;
     private RecyclerView mRecyclerView;
     private ProgressBar loadingBar;
@@ -76,16 +72,15 @@ public class SearchResultsActivity extends AppCompatActivity
 
     private String createSearchUrl(String searchQuery){
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme(HTTPS);
-        builder.authority(GUARDIAN_SEARCH_EQUALS);
-        builder.appendPath(SEARCH_PARAM);
-        builder.appendQueryParameter(Q_PARAM, searchQuery);
-        builder.appendQueryParameter(FORMAT, JSON);
-        builder.appendQueryParameter(SHOW_FIELDS, THUMBNAIL);
-        builder.appendQueryParameter(SHOW_TAGS, CONTRIBUTOR);
-        builder.appendQueryParameter(KEY_EQUALS, getString(R.string.guardian_api_key));
-        String searchUrl =  builder.build().toString();
-        return searchUrl;
+        builder.scheme(UrlParams.SCHEME);
+        builder.authority(UrlParams.AUTHORITY);
+        builder.appendPath(UrlParams.SEARCH_PARAM);
+        builder.appendQueryParameter(UrlParams.Q_PARAM, searchQuery);
+        builder.appendQueryParameter(UrlParams.FORMAT, JSON);
+        builder.appendQueryParameter(UrlParams.SHOW_FIELDS, "thumbnail");
+        builder.appendQueryParameter(UrlParams.SHOW_TAGS, "contributor");
+        builder.appendQueryParameter(UrlParams.API_KEY_PARAM, getString(R.string.guardian_api_key));
+        return builder.build().toString();
     }
 
     private String getIntentQuery(){
@@ -99,8 +94,7 @@ public class SearchResultsActivity extends AppCompatActivity
 
     /*
      * Gets search query from MainActivity to display.
-     * Sets SearchView listener to handle additional searches.
-     */
+     * Sets SearchView listener to handle additional searches. */
     private void setupQueryTextListener(String query){
         searchView.setQuery(query, false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

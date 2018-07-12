@@ -2,7 +2,6 @@ package com.example.company.dailydoseofnews;
 
 
 import android.content.Context;
-
 import com.example.company.dailydoseofnews.network.NetworkUtils;
 
 import java.util.List;
@@ -10,11 +9,9 @@ import java.util.List;
 public class NewsLoader extends android.support.v4.content.AsyncTaskLoader{
 
     private String mUrl;
-    private Context mContext;
 
     public NewsLoader(Context context, String url) {
         super(context);
-        mContext = context;
         mUrl = url;
     }
 
@@ -28,7 +25,7 @@ public class NewsLoader extends android.support.v4.content.AsyncTaskLoader{
         if (mUrl == null){
             return null;
         }
-        List<News> newsList = NetworkUtils.getNewsData(mContext, mUrl);
+        List<News> newsList = NetworkUtils.getNewsData(mUrl);
         return newsList;
     }
 }

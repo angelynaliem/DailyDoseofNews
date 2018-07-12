@@ -16,6 +16,7 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/main_tool_bar"
+            app:titleTextColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="@dimen/smallValue"
