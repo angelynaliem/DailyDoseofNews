@@ -25,9 +25,9 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.settings_prefs);
             SharedPrefsSingleton prefsSingleton = SharedPrefsSingleton.getInstance(getActivity());
             Preference articleNumber = findPreference(getString(R.string.num_of_pages_prefs_key));
-            Preference sortBy = findPreference(getString(R.string.sections_prefs_key));
-            prefsSingleton.applyPreferenceValuesAndListener(getActivity(), articleNumber);
-            prefsSingleton.applyPreferenceValuesAndListener(getActivity(), sortBy);
+            Preference sectionsPref = findPreference(getString(R.string.sections_prefs_key));
+            prefsSingleton.applyPreferenceValuesAndListener(articleNumber);
+            prefsSingleton.applyPreferenceValuesAndListener(sectionsPref);
         }
     }
 }

@@ -15,9 +15,6 @@ import com.example.company.dailydoseofnews.News;
 import com.example.company.dailydoseofnews.R;
 import com.example.company.dailydoseofnews.interfaces.NewsInterface;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

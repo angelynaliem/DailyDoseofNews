@@ -79,6 +79,7 @@ public class NetworkUtils {
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
+            urlConnection.setConnectTimeout(10000);
             urlConnection.connect();
 
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {

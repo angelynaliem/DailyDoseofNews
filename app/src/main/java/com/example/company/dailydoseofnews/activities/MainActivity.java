@@ -115,10 +115,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void setOnTabListener(){
         // This sets the first tabColor when called from onCreate();
+        // Tab can be null if no News is selected from prefs
         int firstTab = tabLayout.getSelectedTabPosition();
         TabLayout.Tab tab = tabLayout.getTabAt(firstTab);
-        String tabString = tab.getText().toString();
-        findColors(tabString);
+        if (tab != null){
+            String tabString = tab.getText().toString();
+            findColors(tabString);
+        } else {
+            findColors("default color");
+            // Makes no news screen visible
+            View noNewsView = findViewById(R.id.no_news_view);
+            noNewsView.setVisibility(View.VISIBLE);
+        }
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

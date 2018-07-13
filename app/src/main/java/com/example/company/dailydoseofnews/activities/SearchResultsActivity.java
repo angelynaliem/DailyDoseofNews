@@ -3,7 +3,6 @@ package com.example.company.dailydoseofnews.activities;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
@@ -13,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,17 +31,10 @@ public class SearchResultsActivity extends AppCompatActivity
 
     private static final String TAG = "SearchResultsActivity";
 
-    private static final String Q_PARAM = "q";
-    private static final String JSON = "json";
-    private static final String SHOW_FIELDS = "show-fields";
-    private static final String THUMBNAIL = "thumbnail";
-    private static final String SHOW_TAGS = "show-tags";
-    private static final String CONTRIBUTOR = "contributor";
-    private static final String KEY_EQUALS = "api-key";
     private String searchQuery;
     private RecyclerView mRecyclerView;
     private ProgressBar loadingBar;
-    SearchView searchView;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +58,9 @@ public class SearchResultsActivity extends AppCompatActivity
         Toolbar myToolBar = findViewById(R.id.search_tool_bar);
         setSupportActionBar(myToolBar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private String createSearchUrl(String searchQuery){
@@ -76,7 +69,7 @@ public class SearchResultsActivity extends AppCompatActivity
         builder.authority(UrlParams.AUTHORITY);
         builder.appendPath(UrlParams.SEARCH_PARAM);
         builder.appendQueryParameter(UrlParams.Q_PARAM, searchQuery);
-        builder.appendQueryParameter(UrlParams.FORMAT, JSON);
+        builder.appendQueryParameter(UrlParams.FORMAT, "json");
         builder.appendQueryParameter(UrlParams.SHOW_FIELDS, "thumbnail");
         builder.appendQueryParameter(UrlParams.SHOW_TAGS, "contributor");
         builder.appendQueryParameter(UrlParams.API_KEY_PARAM, getString(R.string.guardian_api_key));
@@ -92,8 +85,7 @@ public class SearchResultsActivity extends AppCompatActivity
         }
     }
 
-    /*
-     * Gets search query from MainActivity to display.
+    /* Gets search query from MainActivity to display.
      * Sets SearchView listener to handle additional searches. */
     private void setupQueryTextListener(String query){
         searchView.setQuery(query, false);
@@ -101,7 +93,6 @@ public class SearchResultsActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchQuery = createSearchUrl(query);
-                Log.d(TAG, "onQueryTextSubmit: searchQuery = " + searchQuery);
                 restartLoader();
                 searchView.clearFocus();
                 return true;

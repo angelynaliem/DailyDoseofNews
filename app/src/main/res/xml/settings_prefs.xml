@@ -5,7 +5,7 @@
         android:dialogTitle="@string/select_sections"
         android:entries="@array/sections_names"
         android:entryValues="@array/sections_values"
-        android:summary="@string/choose_news_categories"
+
         android:key="@string/sections_prefs_key"
         android:title="@string/sections" />
 

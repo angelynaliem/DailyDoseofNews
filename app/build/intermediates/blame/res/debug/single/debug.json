@@ -696,6 +696,10 @@
         "source": "C:\\Users\\Dave\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\42024509ba77e716eb2d518c3b89c02d\\res\\color\\abc_background_cache_hint_selector_material_dark.xml"
     },
     {
+        "merged": "C:\\Users\\Dave\\Documents\\AndroidStudioProjects\\DailyDoseofNews\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_no_news_trans.png.flat",
+        "source": "C:\\Users\\Dave\\Documents\\AndroidStudioProjects\\DailyDoseofNews\\app\\src\\main\\res\\drawable-xxxhdpi\\no_news_trans.png"
+    },
+    {
         "merged": "C:\\Users\\Dave\\Documents\\AndroidStudioProjects\\DailyDoseofNews\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_list_pressed_holo_light.9.png.flat",
         "source": "C:\\Users\\Dave\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\42024509ba77e716eb2d518c3b89c02d\\res\\drawable-xxhdpi-v4\\abc_list_pressed_holo_light.9.png"
     },
@@ -1296,6 +1300,10 @@
         "source": "C:\\Users\\Dave\\.gradle\\caches\\transforms-1\\files-1.1\\design-27.1.0.aar\\25b08f60668e1ff3421d8066b0f6818d\\res\\drawable-xxxhdpi-v4\\design_ic_visibility_off.png"
     },
     {
+        "merged": "C:\\Users\\Dave\\Documents\\AndroidStudioProjects\\DailyDoseofNews\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_no_news_trans.png.flat",
+        "source": "C:\\Users\\Dave\\Documents\\AndroidStudioProjects\\DailyDoseofNews\\app\\src\\main\\res\\drawable-xhdpi\\no_news_trans.png"
+    },
+    {
         "merged": "C:\\Users\\Dave\\Documents\\AndroidStudioProjects\\DailyDoseofNews\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_notification_bg_normal.9.png.flat",
         "source": "C:\\Users\\Dave\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.0.aar\\92d53f2a1eef373d898694ee71355ace\\res\\drawable-mdpi-v4\\notification_bg_normal.9.png"
     },
@@ -1830,6 +1838,10 @@
     {
         "merged": "C:\\Users\\Dave\\Documents\\AndroidStudioProjects\\DailyDoseofNews\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_btn_checkable.xml.flat",
         "source": "C:\\Users\\Dave\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\42024509ba77e716eb2d518c3b89c02d\\res\\color\\abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "C:\\Users\\Dave\\Documents\\AndroidStudioProjects\\DailyDoseofNews\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_no_news_trans.png.flat",
+        "source": "C:\\Users\\Dave\\Documents\\AndroidStudioProjects\\DailyDoseofNews\\app\\src\\main\\res\\drawable-xxhdpi\\no_news_trans.png"
     },
     {
         "merged": "C:\\Users\\Dave\\Documents\\AndroidStudioProjects\\DailyDoseofNews\\app\\build\\intermediates\\res\\merged\\debug\\anim_abc_tooltip_enter.xml.flat",

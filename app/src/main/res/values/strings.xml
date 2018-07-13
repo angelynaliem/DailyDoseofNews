@@ -73,6 +73,8 @@
     <string name="sections_prefs_key">list_key</string>
     <string name="choose_news_categories">Choose news categories</string>
     <string name="select_sections">Select sections</string>
+    <string name="no_sections_toast">No news selected, click me to add some!</string>
+    <string name="no_news_add_prefs">Go to preferences to add stories</string>
 
     <string-array name="sections_names">
         <item>US News</item>
