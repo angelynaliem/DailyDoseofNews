@@ -123,9 +123,10 @@ public class MainActivity extends AppCompatActivity {
             findColors(tabString);
         } else {
             findColors("default color");
-            // Makes no news screen visible
+            // Makes "no news" screen visible & hide TabLayout
             View noNewsView = findViewById(R.id.no_news_view);
             noNewsView.setVisibility(View.VISIBLE);
+            tabLayout.setVisibility(View.GONE);
         }
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
